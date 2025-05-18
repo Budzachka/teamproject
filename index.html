@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMP Processor</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Секція авторизації -->
+        <div id="auth-section" class="auth-centered">
+            <div class="auth-container">
+                <h2>BMP Редактор</h2>
+                <div id="login-form">
+                    <input type="text" id="username" placeholder="Логін">
+                    <input type="password" id="password" placeholder="Пароль">
+                    <button id="login-btn" class="primary-btn">Увійти</button>
+                </div>
+                <div id="user-info" class="hidden">
+                    <span id="user-name"></span>
+                    <button id="logout-btn">Вийти</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основна секція -->
+        <div id="main-section" class="hidden">
+            <!-- Робота з файлами -->
+            <div class="panel">
+                <button id="open-file-btn" class="primary-btn">Відкрити BMP файл</button>
+                <input type="file" id="file-input" accept=".bmp" style="display: none">
+            </div>
+
+            <!-- Візерунки -->
+            <div class="panel" id="pattern-panel">
+                <h3>Створення візерунку</h3>
+                <div class="controls">
+                    <select id="pattern-select">
+                        <option value="spiral">Спіральний</option>
+                        <option value="wave">Хвильовий</option>
+                        <option value="mosaic">Мозаїчний</option>
+                    </select>
+                    <select id="color-scheme">
+                        <option value="scheme1">Синьо-жовтий</option>
+                        <option value="scheme2">Зелено-фіолетовий</option>
+                        <option value="scheme3">Червоно-синій</option>
+                    </select>
+                    <button id="generate-btn">Створити</button>
+                    <button id="save-btn">Зберегти</button>
+                </div>
+            </div>
+
+            <!-- Стеганографія -->
+            <div class="panel" id="stego-panel">
+                <h3>Приховування повідомлень</h3>
+                <div class="controls">
+                    <textarea id="message" placeholder="Введіть повідомлення"></textarea>
+                    <div class="button-group">
+                        <button id="hide-message-btn">Приховати</button>
+                        <button id="extract-message-btn">Витягти</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Попередній перегляд -->
+            <div class="panel" id="preview-panel">
+                <div class="canvas-container">
+                    <div>
+                        <h4>Оригінал</h4>
+                        <canvas id="source-canvas"></canvas>
+                    </div>
+                    <div>
+                        <h4>Результат</h4>
+                        <canvas id="result-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Історія -->
+            <div class="panel" id="history-panel">
+                <h3>Історія</h3>
+                <div id="recent-files"></div>
+                <div id="recent-patterns"></div>
+                <div id="recent-messages"></div>
+            </div>
+        </div>
+
+        <!-- Нижня панель -->
+        <div class="footer">
+            <button id="help-btn">Довідка</button>
+            <button id="about-btn">Про програму</button>
+            <button id="exit-btn">Вийти з програми</button>
+        </div>
+    </div>
+
+    <!-- Модальне вікно -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-text"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/bmpProcessor.js"></script>
+    <script src="js/steganography.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

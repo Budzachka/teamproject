@@ -1,0 +1,20 @@
+{
+  "name": "bmp-processor",
+  "version": "1.0.0",
+  "description": "Web application for BMP image processing with pattern generation and steganography",
+  "main": "src/js/main.js",
+  "scripts": {
+    "start": "serve src"
+  },
+  "keywords": [
+    "bmp",
+    "image-processing",
+    "steganography",
+    "patterns"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+} 
