@@ -1,0 +1,289 @@
+:root {
+    --primary-color: #2196F3;
+    --primary-dark: #1976D2;
+    --surface: #ffffff;
+    --background: #f5f5f5;
+    --text: #333333;
+    --border: #dddddd;
+    --spacing: 16px;
+    --radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: var(--background);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Авторизація */
+.auth-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: var(--spacing);
+}
+
+.auth-container {
+    background-color: var(--surface);
+    padding: calc(var(--spacing) * 2);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 16px rgba(33, 150, 243, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transform: translateY(0);
+    transition: var(--transition);
+}
+
+.auth-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(33, 150, 243, 0.15);
+}
+
+.auth-container h2 {
+    margin-bottom: calc(var(--spacing) * 1.5);
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2em;
+}
+
+/* Форми */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+/* Панелі */
+.panel {
+    background-color: var(--surface);
+    padding: var(--spacing);
+    margin-bottom: var(--spacing);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.panel h3 {
+    margin-bottom: var(--spacing);
+}
+
+/* Текстова область */
+textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Кнопки */
+button {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    transition: background-color 0.2s;
+    min-width: 100px;
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+}
+
+.primary-btn {
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    width: 100%;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+    margin-top: 8px;
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
+}
+
+/* Контейнери для елементів керування */
+.controls {
+    display: flex;
+    gap: var(--spacing);
+    flex-wrap: wrap;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+/* Попередній перегляд */
+.canvas-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing);
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: white;
+}
+
+/* Історія */
+#history-panel div {
+    margin-top: 8px;
+}
+
+/* Нижня панель */
+.footer {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing);
+    margin-top: auto;
+    padding: var(--spacing);
+}
+
+/* Модальне вікно */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: var(--surface);
+    padding: calc(var(--spacing) * 2);
+    border-radius: var(--radius);
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: calc(var(--spacing) * 1.5);
+    padding-right: 40px;
+}
+
+.modal-content h3 {
+    color: var(--text);
+    margin: calc(var(--spacing) * 1.5) 0 var(--spacing) 0;
+    font-size: 1.3em;
+}
+
+.modal-content ol {
+    padding-left: calc(var(--spacing) * 1.5);
+    margin-bottom: var(--spacing);
+}
+
+.modal-content li {
+    margin-bottom: calc(var(--spacing) * 0.75);
+    line-height: 1.5;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+    background-color: var(--background);
+}
+
+.close:hover {
+    background-color: var(--border);
+    color: var(--primary-color);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Медіа-запити для кращої адаптивності */
+@media (max-width: 768px) {
+    .container {
+        padding: calc(var(--spacing) / 2);
+    }
+    
+    .canvas-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .button-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: var(--spacing);
+    }
+    
+    .auth-container h2 {
+        font-size: 1.5em;
+    }
+    
+    input, select, button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    
+    .primary-btn {
+        padding: 12px 24px;
+    }
+} 
