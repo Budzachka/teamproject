@@ -20,6 +20,29 @@ class BmpProcessor {
         saveBtn.addEventListener('click', () => this.saveBMP());
     }
 
+    async updateHistory() {
+        try {
+            const response = await fetch('/Home/PartialHistory', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Отримуємо HTML-контент із відповіді
+            const html = await response.text();
+
+            // Вставляємо отриманий контент в #history-panel
+            const historyPanel = document.getElementById('history-panel');
+            historyPanel.innerHTML = html;
+        } catch (error) {
+            console.error('Error while updating history:', error);
+        }
+    }
+
     handleFileSelect(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -56,8 +79,6 @@ class BmpProcessor {
                 this.resultCanvas.height = img.height;
                 
                 this.sourceCtx.drawImage(img, 0, 0);
-                auth.updateUserHistory('file', file.name);
-                this.updateRecentFiles();
             };
             img.src = e.target.result;
         };
@@ -73,9 +94,6 @@ class BmpProcessor {
 
         const pattern = document.getElementById('pattern-select').value;
         const colorScheme = document.getElementById('color-scheme').value;
-        
-        auth.updateUserHistory('pattern', pattern);
-        this.updateRecentPatterns();
 
         const width = this.sourceCanvas.width;
         const height = this.sourceCanvas.height;
@@ -94,6 +112,48 @@ class BmpProcessor {
         }
 
         this.resultCtx.putImageData(imageData, 0, 0);
+
+        // Отримуємо зображення з source-canvas
+        const originalCanvas = document.getElementById('source-canvas');
+        const originalImageDataUrl = originalCanvas.toDataURL('image/png');
+
+        // Зберігаємо параметри на сервер
+        this.saveSettingsToServer(pattern, colorScheme, originalImageDataUrl);
+    }
+
+    saveSettingsToServer(pattern, colorScheme, originalImage) {
+        // Передаємо дані в форматі Base64
+        const imgDataUrl = this.resultCanvas.toDataURL('image/png');
+        const secretMessage = document.getElementById('message').value;
+
+        // Отримуємо поточний час з урахуванням часового поясу
+        const now = new Date();
+        const timezoneOffset = now.getTimezoneOffset() * 60000; // конвертуємо хвилини в мілісекунди
+        const localTime = new Date(now.getTime() - timezoneOffset);
+
+        fetch('/Home/SaveSettings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                lastBitMapAlgoritm: pattern,
+                lastColorScheme: colorScheme,
+                lastUpdateTime: localTime.toISOString(),
+                secretMassege: secretMessage,
+                originalImage: originalImage, // Передаємо оригінальне зображення (Base64)
+                outPutImage: imgDataUrl,     // Передаємо результат (Base64)
+            })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Не вдалося зберегти параметри.");
+            }
+            console.log("Параметри збережено успішно.");
+
+            this.updateHistory();
+        }).catch(error => {
+            console.error("Помилка при збереженні параметрів:", error);
+        });
     }
 
     generateSpiralPattern(imageData, width, height, colorScheme) {
@@ -186,26 +246,6 @@ class BmpProcessor {
         }
     }
 
-    updateRecentFiles() {
-        const recentFiles = document.getElementById('recent-files');
-        if (!auth.currentUser) return;
-
-        recentFiles.innerHTML = '<h4>Останні файли:</h4>' +
-            auth.currentUser.recentFiles.map(file => 
-                `<div>${file}</div>`
-            ).join('');
-    }
-
-    updateRecentPatterns() {
-        const recentPatterns = document.getElementById('recent-patterns');
-        if (!auth.currentUser) return;
-
-        recentPatterns.innerHTML = '<h4>Останні візерунки:</h4>' +
-            auth.currentUser.recentPatterns.map(pattern => 
-                `<div>${pattern}</div>`
-            ).join('');
-    }
-
     saveBMP() {
         if (!this.resultCanvas.width || !this.resultCanvas.height) {
             alert('Спочатку створіть зображення!');
@@ -225,9 +265,6 @@ class BmpProcessor {
             link.click();
             document.body.removeChild(link);
 
-            // Оновлюємо історію користувача
-            auth.updateUserHistory('file', filename);
-            this.updateRecentFiles();
         } catch (error) {
             alert('Помилка при збереженні файлу: ' + error.message);
         }
@@ -235,3 +272,8 @@ class BmpProcessor {
 }
 
 const bmpProcessor = new BmpProcessor(); 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    bmpProcessor.updateHistory(); // Викликаємо метод з екземпляра
+});
