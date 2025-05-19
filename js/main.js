@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Перевіряємо наявність всіх необхідних елементів
     const requiredElements = [
         'login-form',
         'source-canvas',
@@ -18,17 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Показуємо форму входу при завантаженні
     document.getElementById('login-form').classList.remove('hidden');
 
-    // Встановлюємо розміри canvas за замовчуванням
     const defaultSize = 400;
     bmpProcessor.sourceCanvas.width = defaultSize;
     bmpProcessor.sourceCanvas.height = defaultSize;
     bmpProcessor.resultCanvas.width = defaultSize;
     bmpProcessor.resultCanvas.height = defaultSize;
 
-    // Очищаємо canvas
     bmpProcessor.sourceCtx.fillStyle = '#ffffff';
     bmpProcessor.sourceCtx.fillRect(0, 0, defaultSize, defaultSize);
     bmpProcessor.resultCtx.fillStyle = '#ffffff';
